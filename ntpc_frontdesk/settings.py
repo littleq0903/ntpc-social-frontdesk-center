@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 )
 
 BOWER_INSTALLED_APPS = (
+    'bootstrap',
     'bootstrap-material-design',
 )
 
