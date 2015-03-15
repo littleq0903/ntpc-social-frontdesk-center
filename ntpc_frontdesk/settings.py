@@ -106,5 +106,5 @@ POP3_BAD_USERS = ['root', 'bin', 'sys']
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'lib.pop3backend.pop3backend.POP3Backend'
+    'libs.pop3backend.pop3backend.POP3Backend'
 )
