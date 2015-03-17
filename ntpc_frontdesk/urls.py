@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 
 urlpatterns = patterns('',
@@ -6,3 +7,4 @@ urlpatterns = patterns('',
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
+urlpatterns += staticfiles_urlpatterns()

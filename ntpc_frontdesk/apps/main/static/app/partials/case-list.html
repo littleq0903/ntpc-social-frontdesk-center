@@ -1,0 +1,16 @@
+<md-list>
+<md-item ng-repeat-start="case_id in [1,2,3,4,5,6,7,8,9,10]" ng-href="#/case/[[case_id]]">
+        <md-content class="md-padding" >
+        <h3>王小明 - 身心障礙生活補助</h3>
+        <h4>1000001234</h4>
+
+        <div layout="row">
+        <p flex>留言：0</p>
+        <p flex>申請時間：2015/04/01 15:33:33</p>
+        </div>
+
+        </md-content>
+    </md-item>
+    <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+
+</md-list>

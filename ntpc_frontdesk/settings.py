@@ -29,6 +29,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 # Application definition
 
@@ -41,11 +42,17 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djangobower',
     'apps.main',
+
 )
+
 
 BOWER_INSTALLED_APPS = (
     'bootstrap',
     'bootstrap-material-design',
+    'bootstrap-sidebar',
+    'material-design-iconic-font',
+    'angular-material',
+    'angular-route',
 )
 
 STATICFILES_FINDERS = (
