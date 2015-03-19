@@ -14,13 +14,17 @@
     <link href="/static/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet">
     <link href="/static/bootstrap-material-design/dist/css/ripples.min.css" rel="stylesheet">
     <link href="/static/bootstrap-sidebar/dist/css/sidebar.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/angular-material/angular-material.css">
-    -->
     <link rel="stylesheet" href="https://rawgit.com/angular/bower-material/master/angular-material.css"/>
+
+    @import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
+    -->
+    <link rel="stylesheet" href="/static/angular-material/angular-material.css">
     <style>
-        @import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
         html, body {
           font-family:'RobotoDraft', Arial, sans-serif;
+        }
+        body {
+            background: #ccc;
         }
     </style>
 
@@ -30,9 +34,17 @@
 
     <!-- TOOLBAR -->
     <md-toolbar layout="row">
-    <button ng-click="openSidenav()" class="menu-icon" hide-gt-md aria-label="Toggle Menu">
-        <md-icon icon="/static/material-design-icons/action/svg/design/ic_open_with_24px.svg"></md-icon>
-    </button>
+
+        <md-button ng-click="openSidenav()" hide-gt-md aria-label="Toggle Menu">
+            <md-icon md-svg-icon="/static/material-design-icons/navigation/svg/design/ic_menu_24px.svg"></md-icon>
+        </md-button>
+
+        <div class="md-toolbar-tools">
+        <h3>
+            <span>淡水區公所櫃檯系統</span>
+        </h3>
+        </div>
+
     </md-toolbar>
 
     <div layout="row" flex>
@@ -48,9 +60,11 @@
                         <md-content class="md-padding">
                             <h4>[[menuSection.name]]</h4>
                             
-                            <md-button ng-href="[[menuItem.href]]" ng-repeat="menuItem in menuSection.items" ng-click="[[menuItem.clickAction]]">
+                            <md-content class="md-padding" ng-repeat="menuItem in menuSection.items">
+                            <md-button ng-href="[[menuItem.href]]">
                                 [[menuItem.name]]
                             </md-button>
+                            </md-content>
                         </md-content>
 
                         <md-divider ng-if="!$last"></md-divider>
@@ -60,7 +74,7 @@
             </md-content>
         </md-sidenav>
 
-        <md-content layout="column" flex ng-view>
+        <md-content layout="column" flex ng-view style="background: #ccc;">
         </md-content>
     </div>
 
@@ -75,17 +89,18 @@
     <script src="/static/bootstrap-material-design/dist/js/ripples.js"></script>
     <script src="/static/bootstrap-sidebar/dist/js/sidebar.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-aria.min.js"></script>
+    <script src="https://rawgit.com/angular/bower-material/master/angular-material.js"></script>
+    -->
+
     <script src="/static/angular/angular.js"></script>
     <script src="/static/angular-aria/angular-aria.js"></script>
     <script src="/static/angular-animate/angular-animate.js"></script>
+    <script src="/static/angular-route/angular-route.js"></script>
+    <script src="/static/angular-resource/angular-resource.js"></script>
     <script src="/static/angular-material/angular-material.js"></script>
-    -->
-
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-animate.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-aria.min.js"></script>
-        <script src="/static/angular-route/angular-route.js"></script>
-        <script src="https://rawgit.com/angular/bower-material/master/angular-material.js"></script>
 
     <script src="/static/app/app.js"></script>
 

@@ -83,13 +83,16 @@ class POP3Backend:
             temp_pass = ""
             new_user = ''
             domain = ''
+
             if email_re.search(username):
                 domain = username[username.find('@')+1:]
                 new_user = username[:username.find('@')]
                 new_user = new_user + '_' +POP3_AUTH_SERVERS[domain]
                 new_user = string.lower(new_user)
+
             for i in range(8):
                 temp_pass = temp_pass + choice(string.letters)
+
             user = User.objects.create_user(new_user, username, temp_pass)
             user.is_staff = False
             user.save()

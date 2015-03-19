@@ -42,7 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djangobower',
     'apps.main',
-
+    'rest_framework',
+    'guardian',
 )
 
 
@@ -53,6 +54,7 @@ BOWER_INSTALLED_APPS = (
     'material-design-iconic-font',
     'angular-material',
     'angular-route',
+    'angular-resource',
 )
 
 STATICFILES_FINDERS = (
@@ -114,5 +116,20 @@ POP3_BAD_USERS = ['root', 'bin', 'sys']
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
     'libs.pop3backend.pop3backend.POP3Backend'
 )
+
+"""
+Django Rest Framework
+"""
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'PAGE_SIZE': 10
+}
+
+ANONYMOUS_USER_ID = -1

@@ -1,16 +1,33 @@
-<md-list>
-<md-item ng-repeat-start="case_id in [1,2,3,4,5,6,7,8,9,10]" ng-href="#/case/[[case_id]]">
-        <md-content class="md-padding" >
-        <h3>王小明 - 身心障礙生活補助</h3>
-        <h4>1000001234</h4>
+<md-toolbar md-scroll-shrink>
+<div class="md-toolbar-tools">
+    <md-button>
+        <md-icon md-svg-icon="/static/material-design-icons/action/svg/design/ic_delete_24px.svg"></md-icon>
+    </md-button>
+</div>
+</md-toolbar>
 
-        <div layout="row">
-        <p flex>留言：0</p>
-        <p flex>申請時間：2015/04/01 15:33:33</p>
-        </div>
+<md-content class="md-padding" style="background: #ccc;">
+    <md-input-container>
+        <label>搜尋</label>
+        <input ng-model="user.name" type="text">
+    </md-input-container>
+    <md-list>
+        <md-item ng-repeat="case_id in [1,2,3,4,5,6,7,8,9,10]">
+            <md-card>
 
-        </md-content>
-    </md-item>
-    <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+                <md-content class="md-padding">
+                    <h3>王小明 - 身心障礙生活補助</h3>
+                    <h4>[[case_id]]</h4>
 
-</md-list>
+                    <div layout="row">
+                    <p flex>留言：0</p>
+                    <p flex>申請時間：2015/04/01 15:33:33</p>
+                    </div>
+
+                    <md-button class="md-primary" ng-href="#/case/[[case_id]]">查詢/修改</md-button>
+                </md-content>
+
+            </md-card>
+        </md-item>
+    </md-list>
+</md-content>

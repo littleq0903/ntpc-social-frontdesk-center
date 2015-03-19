@@ -1,0 +1,30 @@
+<md-card>
+
+    <md-content class="md-padding">
+        <h2>個人資訊</h2>
+    </md-content>
+
+    <md-content class="md-padding" md-theme="profile-dark" layout="row" layout-sm="column">
+        
+        <md-input-container>
+            <label>姓氏</label>
+            <input ng-model="user.last_name">
+        </md-input-container>
+
+        <md-input-container>
+            <label>名字</label>
+            <input ng-model="user.first_name">
+        </md-input-container>
+    
+    </md-content>
+
+    <md-content class="md-padding" layout="row" layout-sm="column">
+
+        <md-input-container>
+            <label>電子郵件</label>
+            <input ng-model="user.email">
+        </md-input-container>
+    
+    </md-content>
+
+</md-card>
