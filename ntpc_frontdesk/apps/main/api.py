@@ -17,12 +17,10 @@ ROUTER = routers.DefaultRouter()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('pk', 'id', 'username', 'last_name', 'first_name')
+        fields = ('pk', 'id', 'username', 'last_name', 'first_name', 'email')
         extra_kwargs = {
             'url': {'view_name': 'users', 'lookup_field': 'username'}
         }
-    
-
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -31,7 +29,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, username=None):
         queryset = User.objects.all()
-        user = get_object_or_404(queryset, username=username)
+
+        if username == 'me':
+            user = request.user
+        else:
+            user = get_object_or_404(queryset, username=username)
+
         serializer = UserSerializer(user)
         return Response(serializer.data)
 

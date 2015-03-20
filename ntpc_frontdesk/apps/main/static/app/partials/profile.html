@@ -8,12 +8,12 @@
         
         <md-input-container>
             <label>姓氏</label>
-            <input ng-model="user.last_name">
+            <input ng-model="user.last_name" ng-model-options="{ debounce: SAVE_TIMEOUT }">
         </md-input-container>
 
         <md-input-container>
             <label>名字</label>
-            <input ng-model="user.first_name">
+            <input ng-model="user.first_name" ng-model-options="{ debounce: SAVE_TIMEOUT }">
         </md-input-container>
     
     </md-content>
@@ -22,7 +22,7 @@
 
         <md-input-container>
             <label>電子郵件</label>
-            <input ng-model="user.email">
+            <input ng-model="user.email" ng-model-options="{ debounce: SAVE_TIMEOUT }">
         </md-input-container>
     
     </md-content>

@@ -55,6 +55,7 @@ BOWER_INSTALLED_APPS = (
     'angular-material',
     'angular-route',
     'angular-resource',
+    'angular-cookies',
 )
 
 STATICFILES_FINDERS = (
@@ -129,6 +130,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'PAGE_SIZE': 10
 }
 
