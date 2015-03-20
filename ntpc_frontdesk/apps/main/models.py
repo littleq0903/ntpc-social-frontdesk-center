@@ -15,7 +15,7 @@ class ApplicationForm(models.Model):
 class ApplicationCase(models.Model):
     name = models.CharField(max_length=50)
     notes = models.TextField(blank=True)
-    required_forms = models.ManyToManyField(ApplicationForm, null=True, blank=True)
+    required_forms = models.ManyToManyField(ApplicationForm, null=True, blank=True, related_name="case_required_this")
 
     def __unicode__(self):
         return self.name
@@ -34,9 +34,9 @@ class Application(models.Model):
     application_case = models.ForeignKey(ApplicationCase)
     applied_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
-    server = models.ForeignKey(User)
+    server = models.ForeignKey(User, related_name='main_server')
+    involved_servers = models.ManyToManyField(User, null=True, blank=True, related_name="application_involved")
     
     def __unicode__(self):
         return u"%s: %s" % (self.application_case, self.applicant)
-
 

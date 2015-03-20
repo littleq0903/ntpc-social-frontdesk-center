@@ -9,23 +9,28 @@
 <md-content class="md-padding" style="background: #ccc;">
     <md-input-container>
         <label>搜尋</label>
-        <input ng-model="user.name" type="text">
+        <input ng-model="searchText" type="text">
     </md-input-container>
     <md-list>
-        <md-item ng-repeat="case_id in [1,2,3,4,5,6,7,8,9,10]">
-            <md-card>
+        <md-item ng-repeat="case in cases | filter:searchText">
+            <md-card style="background: white;">
+                <md-item-content>
+                    <md-tile-left>
+                        <md-content class="md-padding">
+                            [[case.application_case.name]]
+                        </md-content>
+                    </md-tile-left>
 
-                <md-content class="md-padding">
-                    <h3>王小明 - 身心障礙生活補助</h3>
-                    <h4>[[case_id]]</h4>
+                    <md-tile-content>
+                        <h3>[[case.applicant.fullname]]</h3>
+                        <h4>[[case.applicant.id_no]]</h4>
+                        <p>申請時間：[[ case.applied_time | date : 'medium' : '+0800' ]]</p>
+                    </md-tile-content>
 
-                    <div layout="row">
-                    <p flex>留言：0</p>
-                    <p flex>申請時間：2015/04/01 15:33:33</p>
+                    <div layout="column">
+                        <md-button class="md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
                     </div>
-
-                    <md-button class="md-primary" ng-href="#/case/[[case_id]]">查詢/修改</md-button>
-                </md-content>
+                </md-item-content>
 
             </md-card>
         </md-item>

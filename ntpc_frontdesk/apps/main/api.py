@@ -46,11 +46,24 @@ class ApplicantSerializer(serializers.ModelSerializer):
         model = Applicant
         fields = ('id_no', 'fullname')
 
+# Application Form
+class ApplicationFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ApplicationForm
+        fields = ('name', 'scan_file')
+
 # Application Case
 class ApplicationCaseSerializer(serializers.ModelSerializer):
+    required_forms = serializers.SerializerMethodField()
+
+    def get_required_forms(self, obj):
+        # default serializer is not working in ManyToManyField, so we hacked one.
+        if obj:
+            return [ ApplicationFormSerializer(form).data for form in ApplicationForm.objects.filter(case_required_this=obj) ]
+
     class Meta:
         model = ApplicationCase
-        fields = ('name', 'notes')
+        fields = ('name', 'notes', 'required_forms')
 
 # Application
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -60,7 +73,15 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = ('applied_time', 'modified_time', 'id', 'applicant', 'application_case', 'server')
+        fields = (
+            'applied_time',
+            'modified_time',
+            'id',
+            'applicant',
+            'application_case',
+            'server',
+            'involved_servers'
+        )
 
 
 class ApplicationViewSet(viewsets.ModelViewSet):

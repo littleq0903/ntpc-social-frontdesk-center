@@ -15,6 +15,10 @@ angular.module('RootApp', [
     // routing
     $routeProvider
         // case list page
+        .when('/cases/:id', {
+            templateUrl: '/static/app/partials/case-detail.html',
+            controller: 'CaseDetailCtrl'
+        })
         .when('/cases', {
             templateUrl: '/static/app/partials/case-list.html',
             controller: 'CaseListCtrl'
@@ -71,15 +75,29 @@ angular.module('RootApp', [
 })
 .factory('userFactory', [
     'RestResource',
-    '$rootScope',
-    '$cookies',
-    function($resource, $rootScope, $cookies) {
+    function($resource) {
         return $resource('/api/users/:username/', {
             username: "@username",
         });
     }
 ])
-
+.factory('caseFactory', [
+    'RestResource',
+    function($resource) {
+        return $resource('/api/applications/:application_id/', {
+            application_id: "@id"
+        },{
+                query: {
+                    /*
+                    transformResponse: function(data){
+                        // our list method doesn't response only an array but a object which contains 'results' field.
+                        return angular.fromJson(data);
+                    }
+                    */
+                }
+        });
+    }
+])
 
 /* Controllers */
 .controller('AppCtrl', function($scope, $rootScope, $mdSidenav, $location, $timeout, $cookies){
@@ -123,30 +141,39 @@ angular.module('RootApp', [
         }
     ];
 })
-.controller('CaseListCtrl', function(){
-    
-
-
+.controller('CaseListCtrl', function(caseFactory, $scope){
+    $scope.cases = caseFactory.query(function(data){
+        console.log('get case list');
+        console.log($scope.cases);
+        $scope.cases = data.results;
+    });
+})
+.controller('CaseDetailCtrl', function(caseFactory, $scope, $routeParams){
+    $scope.case = caseFactory.get({application_id: $routeParams.id}, function(data) {
+        console.log('get case instance:');
+        console.log(data);
+    });
 })
 .controller('ProfileCtrl', function($scope, $http, userFactory, $mdToast, $cookies){
     $scope.SAVE_TIMEOUT = 2000;
     $scope.user = userFactory.get({username: 'me'}, function(data) {
-        console.log(data);
-    });
 
-    $scope.$watchCollection('user', function(){
-        $scope.user.$save().then(function(){
-            var successToast = $mdToast
-                .simple()
-                .content("個人資料修改完成。");
-            $mdToast.show(successToast);
-        }, function(data){
-            var errorText = data.status + " " + data.statusText;
-            var errorToast = $mdToast
-                .simple()
-                .content("個人資料儲存發生錯誤：" + errorText);
-            $mdToast.show(errorToast);
+        // set watcher after the data has been loaded.
+        $scope.$watchCollection('user', function(){
+            $scope.user.$save().then(function(){
+                var successToast = $mdToast
+                    .simple()
+                    .content("個人資料修改完成。");
+                $mdToast.show(successToast);
+            }, function(data){
+                var errorText = data.status + " " + data.statusText;
+                var errorToast = $mdToast
+                    .simple()
+                    .content("個人資料儲存發生錯誤：" + errorText);
+                $mdToast.show(errorToast);
+            });
         });
     });
+
     
 });
