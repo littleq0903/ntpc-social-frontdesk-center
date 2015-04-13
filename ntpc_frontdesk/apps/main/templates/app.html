@@ -47,6 +47,11 @@
 
     </md-toolbar>
 
+    <style>
+    md-list-item[md-ink-ripple] {
+        position: relative;
+    }
+    </style>
     <div layout="row" flex>
         <md-sidenav 
             md-is-locked-open="$mdMedia('gt-md')"
@@ -57,7 +62,7 @@
             <md-content>
                 <md-list ng-repeat="menuSection in menuSections">
                     <md-subheader class="md-no-sticky">[[menuSection.name]]</md-subheader>
-                    <md-list-item ng-click="navTo(menuItem.href)" md-expando ng-repeat="menuItem in menuSection.items">
+                    <md-list-item md-ink-ripple ng-click="navTo(menuItem.href)" md-expando ng-repeat="menuItem in menuSection.items">
                         <md-icon md-svg-src="[[menuItem.icon]]"></md-icon>
                         <p>
                             [[menuItem.name]]
