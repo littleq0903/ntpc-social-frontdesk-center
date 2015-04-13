@@ -6,33 +6,33 @@
 </div>
 </md-toolbar>
 
-<md-content class="md-padding" style="background: #ccc;">
+<md-content layout-padding style="background: #ccc;">
     <md-input-container>
         <label>搜尋</label>
         <input ng-model="searchText" type="text">
     </md-input-container>
     <md-list>
-        <md-item ng-repeat="case in cases | filter:searchText">
-            <md-card style="background: white;">
-                <md-item-content>
-                    <md-tile-left>
+        <md-list-item ng-repeat="case in cases | filter:searchText">
+            <md-card style="background: white;" flex>
+                <md-content class="md-padding">
+                        [[case.application_case.name]]
+
                         <md-content class="md-padding">
-                            [[case.application_case.name]]
-                        </md-content>
-                    </md-tile-left>
-
-                    <md-tile-content>
-                        <h3>[[case.applicant.fullname]]</h3>
-                        <h4>[[case.applicant.id_no]]</h4>
+                        <h3>[[case.applicant.fullname]] - [[case.applicant.id_no]]</h3>
                         <p>申請時間：[[ case.applied_time | date : 'medium' : '+0800' ]]</p>
-                    </md-tile-content>
+                        </md-content>
 
-                    <div layout="column">
-                        <md-button class="md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
-                    </div>
-                </md-item-content>
+                        <md-content layout="row" layout-align="start">
+                            <md-button class="md-raised md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
+                        </md-content>
 
+                </md-content>
             </md-card>
-        </md-item>
+        </md-list-item>
     </md-list>
 </md-content>
+
+<md-button class="md-fab md-primary" aria-label="新增案件" style="position: absolute; right: 20px; bottom: 20px;" ng-href="#/new-case">
+    <md-tooltip md-direction="top">新增案件</md-tooltip>
+    <md-icon md-svg-src="/static/material-design-icons/content/svg/production/ic_add_24px.svg"></md-icon>
+</md-button>

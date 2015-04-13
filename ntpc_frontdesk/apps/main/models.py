@@ -28,15 +28,37 @@ class Applicant(models.Model):
     def __unicode__(self):
         return u"%s-%s" % (self.id_no, self.fullname)
 
+    @property
+    def gender(self):
+        if self.id_no[1] == '1':
+            return 'male'
+        elif self.id_no[2] == '2':
+            return 'female'
+        else:
+            return 'unknown'
+
 
 class Application(models.Model):
     applicant = models.ForeignKey(Applicant)
     application_case = models.ForeignKey(ApplicationCase)
     applied_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now=True)
-    server = models.ForeignKey(User, related_name='main_server')
-    involved_servers = models.ManyToManyField(User, null=True, blank=True, related_name="application_involved")
+    author = models.ForeignKey(User, related_name='applications')
+    involved_authors = models.ManyToManyField(User, null=True, blank=True, related_name="involved_applications")
+    handovered_forms = models.ManyToManyField(ApplicationForm, null=True, blank=True)
     
     def __unicode__(self):
         return u"%s: %s" % (self.application_case, self.applicant)
+
+
+class ApplicationComment(models.Model):
+    content = models.TextField()
+    created_time = models.DateTimeField(auto_now_add=True)
+    modified_time = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, null=True, related_name='committed_comments')
+    target = models.ForeignKey(Application, related_name='comments')
+
+    def __unicode__(self):
+        return u"Comment: %s to %s" % (self.commenter, self.target)
+
 

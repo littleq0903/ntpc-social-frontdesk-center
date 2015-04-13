@@ -1,0 +1,100 @@
+<md-list>
+<!-- case detail form: START -->
+<md-card>
+    <md-content class="md-padding" layout="row" layout-sm="column">
+        <md-tile-left>
+            [[case.application_case.name]]
+        </md-tile-left>
+        <md-tile-content>
+            <h2>[[case.applicant.fullname]]</h2>
+        </md-tile-content>
+    </md-content>
+
+    <md-content class="md-padding" md-theme="case-detail-form" layout="row" layout-sm="column">
+        <!-- Applicant Information -->
+        <md-tile-left>
+            <md-content class="md-padding">
+                <h4>申請人資訊</h4>
+            </md-content>
+        </md-tile-left>
+
+        <md-tile-content layout="row" layout-sm="column">
+            <md-input-container>
+                <label>姓名</label>
+                <input ng-model="case.applicant.fullname" disabled>
+            </md-input-container>
+
+            <md-input-container>
+                <label>申請人身份證字號</label>
+                <input ng-model="case.applicant.id_no" disabled>
+            </md-input-container>
+        </md-tile-content>
+    
+    </md-content>
+
+    <md-content class="md-padding" md-theme="case-detail-form" layout="row" layout-sm="column">
+        <md-tile-left>
+            <md-content class="md-padding">
+                <h4>應備文件</h4>
+            </md-content>
+        </md-tile-left>
+        
+        <md-tile-content layout="column" layout-sm="column">
+
+            <md-content ng-repeat="form in case.application_case.required_forms">
+                <md-checkbox>
+                    [[form.name]]
+                </md-checkbox>
+            </md-content>
+
+        </md-tile-content>
+    </md-content>
+
+    <md-content class="md-padding" md-theme="case-detail-form" layout="row" layout-sm="column">
+        <md-tile-left>
+            <md-content class="md-padding">
+                <h4>注意事項</h4>
+            </md-content>
+        </md-tile-left>
+        
+        <md-tile-content layout="column" layout-sm="column">
+            <md-content class="md-padding">
+                <p>
+                    [[case.application_case.notes]]
+                </p>
+            </md-content>
+        </md-tile-content>
+    </md-content>
+    
+    <md-content class="md-padding">
+        <md-button class="md-primary md-raised" ng-click="">修改</md-button>
+        <md-button class="md-warn md-raised" ng-click="">刪除</md-button>
+    </md-content>
+
+</md-card>
+
+<!-- comment input: START -->
+<md-card>
+    <md-content class="md-padding" layout="row">
+        <md-input-container flex>
+            <label>留言</label>
+            <textarea ng-model="comment_content" columns="1" rows="1"></textarea>
+        </md-input-container>
+        <md-button class="md-primary" ng-click="submitComment()">送出</md-button>
+    </md-content>
+</md-card>
+
+<!-- comments list: START -->
+<div ng-repeat="comment in comments.slice().reverse()">
+    <md-card ng-model="comment">
+        <md-content class="md-padding">
+        <p>
+            [[comment.content]]
+        </p>
+        </md-content>
+        <md-content class="md-padding">
+            [[comment.author.fullname]]
+        </md-content>
+    </md-card>
+</div>
+</md-list>

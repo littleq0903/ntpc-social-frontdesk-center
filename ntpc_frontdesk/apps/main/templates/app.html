@@ -35,11 +35,11 @@
     <!-- TOOLBAR -->
     <md-toolbar layout="row">
 
-        <md-button ng-click="openSidenav()" hide-gt-md aria-label="Toggle Menu">
-            <md-icon md-svg-icon="/static/material-design-icons/navigation/svg/design/ic_menu_24px.svg"></md-icon>
-        </md-button>
 
         <div class="md-toolbar-tools">
+        <md-button ng-click="openSidenav()" class="md-icon-button" hide-gt-md aria-label="Toggle Menu">
+            <md-icon md-svg-icon="/static/material-design-icons/navigation/svg/design/ic_menu_24px.svg"></md-icon>
+        </md-button>
         <h3>
             <span>淡水區公所櫃檯系統</span>
         </h3>
@@ -55,8 +55,16 @@
             layout="column">
 
             <md-content>
-                <md-list>
-                    <md-item ng-repeat="menuSection in menuSections">
+                <md-list ng-repeat="menuSection in menuSections">
+                    <md-subheader class="md-no-sticky">[[menuSection.name]]</md-subheader>
+                    <md-list-item ng-click="navTo(menuItem.href)" md-expando ng-repeat="menuItem in menuSection.items">
+                        <md-icon md-svg-src="[[menuItem.icon]]"></md-icon>
+                        <p>
+                            [[menuItem.name]]
+                        </p>
+                    </md-list-item>
+
+                        <!--
                         <md-content class="md-padding">
                             <h4>[[menuSection.name]]</h4>
                             
@@ -68,13 +76,14 @@
                         </md-content>
 
                         <md-divider ng-if="!$last"></md-divider>
-                    </md-item>
+                        -->
+
                 </md-list>
 
             </md-content>
         </md-sidenav>
 
-        <md-content layout="column" flex ng-view style="background: #ccc;">
+        <md-content id="content-view" layout="column" flex ng-view style="background: #ccc;">
         </md-content>
     </div>
 

@@ -7,20 +7,39 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import routers, serializers, viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import detail_route, list_route
 
-from apps.main.models import ApplicationForm, ApplicationCase, Application, Applicant
+from apps.main.models import (
+    ApplicationForm,
+    ApplicationCase,
+    Application,
+    Applicant,
+    ApplicationComment
+)
 
 # Routers provide an easy way of automatically determining the URL conf.
 ROUTER = routers.DefaultRouter()
 
+
 # Users
 class UserSerializer(serializers.ModelSerializer):
+    fullname = serializers.SerializerMethodField()
+
+    def get_fullname(self, obj):
+        fullname = obj.get_full_name()
+        return fullname or obj.username
+
     class Meta:
         model = User
-        fields = ('pk', 'id', 'username', 'last_name', 'first_name', 'email')
+        fields = ('pk', 'id', 'username', 'last_name',
+                  'first_name', 'email', 'fullname')
         extra_kwargs = {
-            'url': {'view_name': 'users', 'lookup_field': 'username'}
+            'url': {
+                'view_name': 'users',
+                'lookup_field': 'username'
+            }
         }
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -38,19 +57,25 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+
 ROUTER.register(r'users', UserViewSet)
+
 
 # Applicant
 class ApplicantSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Applicant
-        fields = ('id_no', 'fullname')
+        fields = ('id_no', 'fullname', 'gender')
+
 
 # Application Form
 class ApplicationFormSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ApplicationForm
-        fields = ('name', 'scan_file')
+        fields = ('id', 'name', 'scan_file')
+
 
 # Application Case
 class ApplicationCaseSerializer(serializers.ModelSerializer):
@@ -63,13 +88,40 @@ class ApplicationCaseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ApplicationCase
-        fields = ('name', 'notes', 'required_forms')
+        fields = ('id', 'name', 'notes', 'required_forms')
+
+
+class ApplicationCaseViewSet(viewsets.ModelViewSet):
+    queryset = ApplicationCase.objects.all()
+    serializer_class = ApplicationCaseSerializer
+
+ROUTER.register(r'applicationcase', ApplicationCaseViewSet)
+
 
 # Application
+class ApplicationCommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer(required=False, read_only=True)
+
+    class Meta:
+        model = ApplicationComment
+        fields = (
+            'content',
+            'created_time',
+            'modified_time',
+            'author',
+            'target'
+        )
+
+
 class ApplicationSerializer(serializers.ModelSerializer):
     applicant = ApplicantSerializer()
     application_case = ApplicationCaseSerializer()
-    server = UserSerializer()
+    author = UserSerializer()
+    comments = serializers.SerializerMethodField()
+
+    def get_comments(self, obj):
+        if obj:
+            return [ ApplicationCommentSerializer(cmt).data for cmt in ApplicationComment.objects.filter(target=obj) ]
 
     class Meta:
         model = Application
@@ -79,8 +131,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'id',
             'applicant',
             'application_case',
-            'server',
-            'involved_servers'
+            'author',
+            'involved_authors',
+            'comments'
         )
 
 
@@ -88,5 +141,15 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
 
+
+class ApplicationCommentViewSet(viewsets.ModelViewSet):
+    queryset = ApplicationComment.objects.all()
+    serializer_class = ApplicationCommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+        
+
 ROUTER.register(r'applications', ApplicationViewSet)
+ROUTER.register(r'comments', ApplicationCommentViewSet)
 

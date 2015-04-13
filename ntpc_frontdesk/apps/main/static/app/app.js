@@ -15,6 +15,10 @@ angular.module('RootApp', [
     // routing
     $routeProvider
         // case list page
+        .when('/new-case', {
+            templateUrl: '/static/app/partials/case-new.html',
+            controller: 'CaseAddCtrl'
+        })
         .when('/cases/:id', {
             templateUrl: '/static/app/partials/case-detail.html',
             controller: 'CaseDetailCtrl'
@@ -27,17 +31,18 @@ angular.module('RootApp', [
         .when('/profile', {
             templateUrl: '/static/app/partials/profile.html',
             controller: 'ProfileCtrl'
-        }) ;
-
+        })
+        .otherwise('/cases');
 })
 .config(function($mdThemingProvider){
     $mdThemingProvider.theme('profile-dark', 'default')
-    .primaryPalette('light-green')
-    .dark();
+        .dark();
+    $mdThemingProvider.theme('case-detail-form', 'default')
+        .backgroundPalette('indigo');
 })
 .config(['$resourceProvider', function($resourceProvider) {
-  // Don't strip trailing slashes from calculated URLs
-  $resourceProvider.defaults.stripTrailingSlashes = false;
+    // Don't strip trailing slashes from calculated URLs
+    $resourceProvider.defaults.stripTrailingSlashes = false;
 }])
 .config(function($httpProvider){
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -81,26 +86,38 @@ angular.module('RootApp', [
         });
     }
 ])
-.factory('caseFactory', [
+.factory('applicationCaseFactory', [
+    'RestResource',
+    function($resource){
+        return $resource('/api/applicationcase/:case_id/',{
+            case_id: "@id"
+        },{
+            query: {}
+        });
+    }
+])
+.factory('applicationFactory', [
     'RestResource',
     function($resource) {
         return $resource('/api/applications/:application_id/', {
             application_id: "@id"
-        },{
-                query: {
-                    /*
-                    transformResponse: function(data){
-                        // our list method doesn't response only an array but a object which contains 'results' field.
-                        return angular.fromJson(data);
-                    }
-                    */
-                }
+        },
+        {
+            query: {}
+        });
+    }
+])
+.factory('commentFactory', [
+    'RestResource',
+    function($resource) {
+        return $resource('/api/comments/:comment_id/', {
+            comment_id: "@id"
         });
     }
 ])
 
 /* Controllers */
-.controller('AppCtrl', function($scope, $rootScope, $mdSidenav, $location, $timeout, $cookies){
+.controller('AppCtrl', function($scope, $rootScope, $mdSidenav, $window, $location, $timeout, $cookies, userFactory){
     $rootScope.$on('$locationChangeSuccess', closeSidenav);
     $rootScope.getCSRFToken = function (){
         return $cookies.get('csrftoken');
@@ -110,15 +127,20 @@ angular.module('RootApp', [
         $timeout(function(){
             $mdSidenav('global-sidenav').open(); 
         });
-    };
+    }
     function closeSidenav() {
         $timeout(function(){
             $mdSidenav('global-sidenav').close();
         });
-    };
+    }
+    function navTo(url) {
+        $window.location.href = url;
+    }
+
 
     $scope.openSidenav = openSidenav;
     $scope.closeSidenav = closeSidenav;
+    $scope.navTo = navTo;
 
     $scope.menuSections = [
         {
@@ -126,7 +148,8 @@ angular.module('RootApp', [
             "items": [
                 {
                     "name": "案件列表",
-                    "href": "#/cases"
+                    "href": "#/cases",
+                    "icon": "/static/material-design-icons/editor/svg/production/ic_insert_drive_file_24px.svg"
                 },
             ]
         },
@@ -135,24 +158,76 @@ angular.module('RootApp', [
             "items": [
                 {
                     "name": "個人資訊頁面",
-                    "href": "#/profile"
+                    "href": "#/profile",
+                    "icon": "/static/material-design-icons/action/svg/production/ic_account_circle_24px.svg"
+                },
+                {
+                    "name": "登出",
+                    "href": "/logout",
+                    "icon": "/static/material-design-icons/navigation/svg/production/ic_close_24px.svg"
                 }
             ]
         }
     ];
+
+    $scope.current_user = userFactory.get({username: "me"});
+    console.log($scope.current_user);
 })
-.controller('CaseListCtrl', function(caseFactory, $scope){
-    $scope.cases = caseFactory.query(function(data){
+.controller('CaseListCtrl', function(applicationFactory, $scope){
+    applicationFactory.query(function(data){
         console.log('get case list');
         console.log($scope.cases);
         $scope.cases = data.results;
     });
 })
-.controller('CaseDetailCtrl', function(caseFactory, $scope, $routeParams){
-    $scope.case = caseFactory.get({application_id: $routeParams.id}, function(data) {
+.controller('CaseDetailCtrl', function(applicationFactory, commentFactory, $scope, $routeParams, $mdToast){
+    $scope.case = applicationFactory.get({application_id: $routeParams.id}, function(data) {
         console.log('get case instance:');
         console.log(data);
+        console.log($scope.case);
+        $scope.comments = $scope.case.comments;
     });
+
+    $scope.submitComment = function() {
+        var comment = new commentFactory({
+            content: $scope.comment_content,
+            target: $scope.case.id,
+            author: $scope.current_user.pk
+        });
+        comment.$save().then(function(data){
+            var successToast = $mdToast
+                .simple()
+                .content("Comment sent.");
+
+            $scope.comment_content = "";
+            $scope.comments.push(comment);
+        });
+    }
+    
+})
+.controller('CaseAddCtrl', function(applicationCaseFactory, $scope){
+    $scope.caseSearchText = null;
+    $scope.selectedApplicationCase = null;
+    
+    applicationCaseFactory.query(function(data){
+        $scope.caseOptions = data.results;
+        console.log($scope.caseOptions);
+    });
+
+    $scope.queryCase = function (query) {
+        var results = query ? $scope.caseOptions.filter(function(icase){
+            console.debug('query: ' + query);
+            console.debug('name: ' + icase.name);
+            console.log(icase.name.indexOf($scope.caseSearchText)+1);
+            return (icase.name.indexOf($scope.caseSearchText)+1);
+        }) : [];
+
+        console.log(results);
+
+        return results;
+    }
+
+
 })
 .controller('ProfileCtrl', function($scope, $http, userFactory, $mdToast, $cookies){
     $scope.SAVE_TIMEOUT = 2000;

@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from apps.main.models import Application, ApplicationForm, ApplicationCase, Applicant
+from apps.main.models import (
+    Application,
+	ApplicationForm,
+	ApplicationCase,
+	Applicant,
+    ApplicationComment
+)
 
 # Register your models here.
 
@@ -18,4 +24,8 @@ class ApplicationCaseAdmin(admin.ModelAdmin):
 
 @admin.register(ApplicationForm)
 class ApplicationFormAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ApplicationComment)
+class ApplicationCommentAdmin(admin.ModelAdmin):
     pass
