@@ -1,16 +1,4 @@
-<md-toolbar md-scroll-shrink>
-<div class="md-toolbar-tools">
-    <md-button>
-        <md-icon md-svg-icon="/static/material-design-icons/action/svg/design/ic_delete_24px.svg"></md-icon>
-    </md-button>
-</div>
-</md-toolbar>
-
 <md-content layout-padding style="background: #ccc;">
-    <md-input-container>
-        <label>搜尋</label>
-        <input ng-model="searchText" type="text">
-    </md-input-container>
     <md-list>
         <md-list-item ng-repeat="case in cases | filter:searchText">
             <md-card style="background: white;" flex>

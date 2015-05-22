@@ -5,7 +5,8 @@ from apps.main.models import (
 	ApplicationForm,
 	ApplicationCase,
 	Applicant,
-    ApplicationComment
+    ApplicationComment,
+    HandoveredDocument
 )
 
 # Register your models here.
@@ -28,4 +29,8 @@ class ApplicationFormAdmin(admin.ModelAdmin):
 
 @admin.register(ApplicationComment)
 class ApplicationCommentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(HandoveredDocument)
+class HandoveredDocumentAdmin(admin.ModelAdmin):
     pass

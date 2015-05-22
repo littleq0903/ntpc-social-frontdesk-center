@@ -170,8 +170,7 @@ angular.module('RootApp', [
         }
     ];
 
-    $scope.current_user = userFactory.get({username: "me"});
-    console.log($scope.current_user);
+    $rootScope.current_user = userFactory.get({username: "me"});
 })
 .controller('CaseListCtrl', function(applicationFactory, $scope){
     applicationFactory.query(function(data){
@@ -180,19 +179,62 @@ angular.module('RootApp', [
         $scope.cases = data.results;
     });
 })
-.controller('CaseDetailCtrl', function(applicationFactory, commentFactory, $scope, $routeParams, $mdToast){
+.controller('CaseDetailCtrl', function($mdToast, applicationFactory, commentFactory, $rootScope, $scope, $routeParams, $mdToast){
+    $rootScope.checkingListTable = {};
     $scope.case = applicationFactory.get({application_id: $routeParams.id}, function(data) {
         console.log('get case instance:');
         console.log(data);
         console.log($scope.case);
         $scope.comments = $scope.case.comments;
+        $scope.syncCheckingList();
     });
+
+    $scope.syncCheckingList = function () {
+        var data_src = $scope.case.handovered_forms;
+        var true_ids = _.map(data_src, function(doc) {
+            return doc.form_type;
+        });
+
+        for ( id in true_ids ) {
+            $rootScope.checkingListTable[true_ids[id]] = true;
+        }
+
+        $scope.updateHandovered();
+    }
+
+    $scope.updateHandovered = function () {
+        $scope.case.handovered_forms_string = _.map($rootScope.checkingListTable, function(v, k) { if (v) return parseInt(k); });
+        $scope.case.handovered_forms_string = _.filter($scope.case.handovered_forms_string, function (v) { return v; });
+    }
+
+    $scope.commitModification = function(){
+        var caseModel_toUpdate = _.extend({}, $scope.case);
+
+        caseModel_toUpdate.application_case = caseModel_toUpdate.application_case.id;
+        caseModel_toUpdate.author_username = $rootScope.current_user.username;
+
+        caseModel_toUpdate.$update().then(function(data){
+            console.log('updated:');
+            console.log(data);
+            var successToast = $mdToast
+                .simple()
+                .content("案件修改完成。");
+            $mdToast.show(successToast);
+
+        }, function(data) {
+            var errorText = data.status + " " + data.statusText;
+            var errorToast = $mdToast
+                .simple()
+                .content("案件儲存發生錯誤：" + errorText + "，請稍候再試。");
+            $mdToast.show(errorToast);
+        });
+    }
 
     $scope.submitComment = function() {
         var comment = new commentFactory({
             content: $scope.comment_content,
             target: $scope.case.id,
-            author: $scope.current_user.pk
+            author: $rootScope.current_user.pk
         });
         comment.$save().then(function(data){
             var successToast = $mdToast
@@ -201,32 +243,56 @@ angular.module('RootApp', [
 
             $scope.comment_content = "";
             $scope.comments.push(comment);
+
         });
     }
     
 })
-.controller('CaseAddCtrl', function(applicationCaseFactory, $scope){
+.controller('CaseAddCtrl', function($mdToast, applicationCaseFactory, applicationFactory, $rootScope, $scope, $location){
     $scope.caseSearchText = null;
-    $scope.selectedApplicationCase = null;
+    $rootScope.handoveredDocumentTemp = {};
     
     applicationCaseFactory.query(function(data){
         $scope.caseOptions = data.results;
         console.log($scope.caseOptions);
     });
 
-    $scope.queryCase = function (query) {
-        var results = query ? $scope.caseOptions.filter(function(icase){
-            console.debug('query: ' + query);
-            console.debug('name: ' + icase.name);
-            console.log(icase.name.indexOf($scope.caseSearchText)+1);
-            return (icase.name.indexOf($scope.caseSearchText)+1);
-        }) : [];
+    $scope.caseModel = new applicationFactory();
 
-        console.log(results);
+    $scope.clearHandovered = function () {
+        $rootScope.handoveredDocumentTemp = {};
+    }
+    $scope.updateHandovered = function() {
+        
+        $scope.caseModel.handovered_forms_string = _.map($rootScope.handoveredDocumentTemp, function (v, k) { if (v) return parseInt(k); });
+        $scope.caseModel.handovered_forms_string = _.filter($sceop.caseModel.handovered_forms_string, function(v) {return v;});
 
-        return results;
     }
 
+    $scope.saveCase = function(){
+        var caseModel_toSubmit = _.extend({}, $scope.caseModel);
+        
+        // injection to data for submitting
+        caseModel_toSubmit.application_case = caseModel_toSubmit.application_case.id;
+        caseModel_toSubmit.author_username = $rootScope.current_user.username;
+
+        caseModel_toSubmit.$save().then(function(data){
+            var new_application_id = data.id;
+            $location.path('/cases/' + new_application_id.toString());
+
+            var successToast = $mdToast
+                .simple()
+                .content("案件新增完成。");
+            $mdToast.show(successToast);
+
+        }, function(data) {
+            var errorText = data.status + " " + data.statusText;
+            var errorToast = $mdToast
+                .simple()
+                .content("案件新增發生錯誤：" + errorText + "，請稍候再試。");
+            $mdToast.show(errorToast);
+        });
+    }
 
 })
 .controller('ProfileCtrl', function($scope, $http, userFactory, $mdToast, $cookies){

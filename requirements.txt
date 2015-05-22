@@ -1,0 +1,2 @@
+git+https://github.com/markfinger/django-node.git#egg=django-node
+git+https://github.com/markfinger/django-react.git#egg=django-react

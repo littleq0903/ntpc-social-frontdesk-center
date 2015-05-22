@@ -12,6 +12,16 @@ class ApplicationForm(models.Model):
         return self.name
 
 
+class HandoveredDocument(models.Model):
+    form_type = models.ForeignKey(ApplicationForm, related_name='+')
+    scan_file = models.FileField(null=True, blank=True)
+    upload_time = models.DateTimeField(null=True, blank=True)
+    updated_time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return 'Handovered: %s' % self.form_type.name
+
+
 class ApplicationCase(models.Model):
     name = models.CharField(max_length=50)
     notes = models.TextField(blank=True)
@@ -45,7 +55,8 @@ class Application(models.Model):
     modified_time = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, related_name='applications')
     involved_authors = models.ManyToManyField(User, null=True, blank=True, related_name="involved_applications")
-    handovered_forms = models.ManyToManyField(ApplicationForm, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    handovered_forms = models.ManyToManyField(HandoveredDocument)
     
     def __unicode__(self):
         return u"%s: %s" % (self.application_case, self.applicant)

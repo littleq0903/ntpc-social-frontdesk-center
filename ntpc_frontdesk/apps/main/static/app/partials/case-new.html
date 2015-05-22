@@ -5,30 +5,26 @@
         <md-list>
             <md-subheader>申請項目</md-subheader>
             <md-list-item>
-                <md-autocomplete
-                    md-selected-item="selectedApplicationCase"
-                    md-search-text="caseSearchText"
-                    md-items="item in queryCase(caseOptions)"
-                    md-item-text="item.name"
-                    placeholder="請輸入表單名稱關鍵字">
-                    <span md-highlight-text="caseSearchText" md-highlight-flags="^i">[[item.name]]</span>
-                </md-autocomplete>
+                <md-select ng-change="clearHandovered()" ng-model="caseModel.application_case" placeholder="請選擇申請項目">
+                    <md-option ng-repeat="item in caseOptions" ng-value="item">[[item.name]]</md-option>
+                </md-select>
             </md-list-item>
-            <div style="height: 200px" ng-if="!selectedApplicationCase"></div>
-            <div style="height: 20px" ng-if="selectedApplicationCase"></div>
 
-            <div ng-if="selectedApplicationCase">
+            <div style="height: 200px" ng-if="!caseModel.application_case"></div>
+            <div style="height: 20px" ng-if="caseModel.application_case"></div>
 
-                <md-subheader>[[selectedApplicationCase.name]]應備文件</md-subheader>
+            <div ng-if="caseModel.application_case">
+
+                <md-subheader>[[caseModel.application_case.name]]應備文件</md-subheader>
                 <md-list-item>
-                    <div ng-repeat="form in selectedApplicationCase.required_forms">
-                        <md-checkbox>[[form.name]]</md-checkbox>
+                    <div ng-repeat="form in caseModel.application_case.required_forms">
+                        <md-checkbox ng-change="updateHandovered()" ng-model="handoveredDocumentTemp[form.id]">[[form.name]]</md-checkbox>
                     </div>
                 </md-list-item>
 
-                <md-subheader>[[selectedApplicationCase.name]]收件注意事項</md-subheader>
+                <md-subheader>[[caseModel.application_case.name]]收件注意事項</md-subheader>
                 <md-list-item>
-                    <p>[[selectedApplicationCase.notes]]</p>
+                    <p>[[caseModel.application_case.notes]]</p>
                 </md-list-item>
                 
                 <md-subheader>申請人</md-subheader>
@@ -37,11 +33,11 @@
                     <md-content layout="row">
                         <md-input-container>
                             <label>身份證字號</label>
-                            <input type="text">
+                            <input ng-model="caseModel.applicant.id_no" type="text">
                         </md-input-container>
                         <md-input-container>
                             <label>姓名</label>
-                            <input type="text">
+                            <input type="text" ng-model="caseModel.applicant.fullname">
                         </md-input-container>
                     </md-content>
                 </md-list-item>
@@ -49,7 +45,7 @@
                 <md-subheader>案件備註</md-subheader>
                 <md-list-item>
                     <md-input-container>
-                        <textarea rows="3"></textarea>
+                        <textarea rows="3" ng-model="caseModel.notes"></textarea>
                     </md-input-container>
                 </md-list-item>
 
@@ -60,7 +56,7 @@
         </md-content>
 
         <md-content layout-padding id="caseAddFormControls">
-            <md-button class="md-primary md-raised">新增案件</md-button>
+            <md-button class="md-primary md-raised" ng-click="saveCase()">新增案件</md-button>
             <md-button class="md-raised">重設所有欄位</md-button>
         </md-content>
 
