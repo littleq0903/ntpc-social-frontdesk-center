@@ -189,6 +189,19 @@ angular.module('RootApp', [
         $scope.syncCheckingList();
     });
 
+    $scope.printNotifyForm = function(){
+        $scope.commitModification(function(){
+            var app_id = $scope.case.id;
+
+            ifrm = document.createElement("iframe");
+            ifrm.setAttribute("src", "http://" + document.location.host + "/app/case-printing/" + app_id + "/");
+            ifrm.setAttribute("style", "display: None;");
+            document.body.appendChild(ifrm);
+            ifrm.contentWindow.print();
+            
+        });
+    }
+
     $scope.syncCheckingList = function () {
         var data_src = $scope.case.handovered_forms;
         var true_ids = _.map(data_src, function(doc) {
@@ -207,7 +220,7 @@ angular.module('RootApp', [
         $scope.case.handovered_forms_string = _.filter($scope.case.handovered_forms_string, function (v) { return v; });
     }
 
-    $scope.commitModification = function(){
+    $scope.commitModification = function(after_function){
         var caseModel_toUpdate = _.extend({}, $scope.case);
 
         caseModel_toUpdate.application_case = caseModel_toUpdate.application_case.id;
@@ -220,6 +233,8 @@ angular.module('RootApp', [
                 .simple()
                 .content("案件修改完成。");
             $mdToast.show(successToast);
+
+            if (after_function) { after_function(); }
 
         }, function(data) {
             var errorText = data.status + " " + data.statusText;

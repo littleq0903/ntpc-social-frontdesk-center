@@ -34,6 +34,9 @@ class ApplicationCase(models.Model):
 class Applicant(models.Model):
     id_no = models.CharField(max_length=20)
     fullname = models.CharField(max_length=20)
+    phone = models.CharField(max_length=30)
+    registered_address = models.CharField(max_length=100, null=True, blank=True)
+    living_address = models.CharField(max_length=100, null=True, blank=True)
 
     def __unicode__(self):
         return u"%s-%s" % (self.id_no, self.fullname)

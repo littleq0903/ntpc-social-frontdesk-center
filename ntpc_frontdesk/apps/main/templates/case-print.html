@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新北市淡水區公所社會（人文）課申請福利措施一次告知單</title>
+</head>
+<body>
+    <center>
+    <h2>新北市淡水區公所社會（人文）課申請福利措施一次告知單</h2>
+    </center>
+    
+    <dl>
+        <dt>申請人</dt>
+        <dd>{{application.applicant.fullname}}</dd>
+    </dl>
+
+    <dl>
+        <dt>申請項目</dt>
+        <dd>{{application.application_case.name}}</dd>
+    </dl>
+
+    <dl>
+        <dt>申請時間</dt>
+        <dd>{{application.applied_time}}</dd>
+    </dl>
+
+    <dl>
+        <dt>告知事項</dt>
+        <dd>
+            <p>請補齊下列應繳書件，於&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日前來所辦理：</p>
+            <ul>
+                {% for still_required_form in still_required_forms %}
+                <li><input type="checkbox">{{still_required_form.name}}</li>
+                {% endfor %}
+            </ul>
+        
+        </dd>
+    </dl>
+
+    <dl>
+        <dt>備註</dt>
+        <dd>
+        <p>上班時間：週一到週五（國定例假日除外），上午 8:00 ~ 下午 18:00</p>
+        <p>本單正本交由申請人收執，系統自動建檔留存，並於辦結後隨文歸檔。</p>
+        <p>本告知單如尚有疑問，請來電淡水區公所洽詢：(02) 2622-1020</p>
+
+        
+        </dd>
+    </dl>
+
+    <dl>
+        <dt>申請人簽名（或蓋章）</dt>
+        <dd></dd>
+    </dl>
+    
+</body>
+</html>

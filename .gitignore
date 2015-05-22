@@ -96,3 +96,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# project
+/bower_components
+/db.sqlite3
+

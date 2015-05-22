@@ -69,7 +69,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Applicant
-        fields = ('id_no', 'fullname', 'gender')
+        fields = ('id_no', 'fullname', 'gender', 'phone', 'registered_address', 'living_address')
 
 class HandoveredDocumentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -216,7 +216,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
 
         for form in forms_todelete:
             targetform = ApplicationForm.objects.get(id=form)
-            document = HandoveredDocument.objects.filter(form_type=targetform)
+            document = instance.handovered_forms.filter(form_type=targetform)
             document.delete()
 
         instance.save()
