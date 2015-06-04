@@ -1,8 +1,8 @@
 <md-content layout-padding style="background: #ccc;">
     <md-list>
-        <md-list-item ng-repeat="case in cases | filter:searchText">
+        <md-list-item ng-repeat="case in cases">
             <md-card style="background: white;" flex>
-                <md-content class="md-padding">
+                <md-card-content>
                         [[case.application_case.name]]
 
                         <md-content class="md-padding">
@@ -14,8 +14,9 @@
                             <md-button class="md-raised md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
                         </md-content>
 
-                </md-content>
+                </md-card-content>
             </md-card>
+            <br/>
         </md-list-item>
     </md-list>
 </md-content>

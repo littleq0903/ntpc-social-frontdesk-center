@@ -13,19 +13,21 @@ from apps.main.models import (
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('applicant', 'application_case', 'applied_time', 'author')
+    list_display_links = ('applicant', )
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('fullname', 'id_no', 'phone', 'registered_address')
+    list_display_links = ('fullname', )
 
 @admin.register(ApplicationCase)
 class ApplicationCaseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', )
 
 @admin.register(ApplicationForm)
 class ApplicationFormAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'scan_file')
 
 @admin.register(ApplicationComment)
 class ApplicationCommentAdmin(admin.ModelAdmin):

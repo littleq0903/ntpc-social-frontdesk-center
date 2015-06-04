@@ -177,7 +177,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
 
         author = User.objects.get(username=author_username)
 
-        applicant = Applicant.objects.create(**applicant_data)
+        applicant, applicant_existance = Applicant.objects.get_or_create(id_no=applicant_data['id_no'], defaults=applicant_data)
         applicant.save()
 
         validated_data['applicant'] = applicant
