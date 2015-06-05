@@ -15,6 +15,10 @@
 
         <md-content class="md-padding" layout="row" layout-sm="column">
             <md-input-container flex>
+                <label>案號</label>
+                <input ng-model="case.serial_number" disabled>
+            </md-input-container>
+            <md-input-container flex>
                 <label>案件建立時間</label>
                 <input ng-model="case.applied_time" disabled>
             </md-input-container>
@@ -79,7 +83,7 @@
                     <h4>備註</h4>
                 </md-content>
             </md-tile-left>
-            <md-tile-content layout flex="90">
+            <md-tile-content layout layout-align="center center" flex="90">
                 <md-input-container flex>
                     <textarea ng-model="case.notes" column=3></textarea>
                 </md-input-container>
@@ -89,12 +93,12 @@
         <md-content class="md-padding" layout='row' layout-sm='column'>
             <md-tile-left>
                 <md-content class="md-padding">
-                    <h4>承辦人</h4>
+                    <h4>收件人</h4>
                 </md-content>
             </md-tile-left>
-            <md-tile-content>
-                <md-content layout-align="center center">
-                    <p>[[case.author.fullname]] ([[case.author.email]])</p>
+            <md-tile-content layout layout-align="center center">
+                <md-content layout>
+                    <span class="stamp">[[case.author.last_name]][[case.author.first_name]]</span>
                 </md-content>
             </md-tile-content>
         </md-content>

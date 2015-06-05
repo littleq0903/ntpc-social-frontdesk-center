@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-
+from sequence_field.fields import SequenceField
 
 class ApplicationForm(models.Model):
     name = models.CharField(max_length=50, verbose_name=u"名稱")
@@ -72,6 +72,49 @@ class Applicant(models.Model):
         verbose_name_plural = u'申請人'
 
 
+class ApplicationSequence(models.Model):
+    last_issued_date = models.DateField(auto_now=True)
+    last_issued_number = models.IntegerField(default=1)
+
+    @classmethod
+    def get_or_create_if_missing(cls):
+        if ApplicationSequence.objects.count() == 1:
+            return ApplicationSequence.objects.all()[0]
+        else:
+            # missing, so create.
+            app_seq = ApplicationSequence.objects.create()
+            app_seq.save()
+            return app_seq
+            
+    @classmethod
+    def issue_number(cls):
+        import datetime
+        today = datetime.date.today()
+
+        app_seq = cls.get_or_create_if_missing()
+
+        if today == app_seq.last_issued_date:
+            # the same date, increase the number by 1
+            app_seq.last_issued_number += 1
+            app_seq.save()
+        else:
+            # the different date, set the number to 1
+            app_seq.last_issued_number = 1
+            app_seq.save()
+            # the last_issued_date will be automatically set by auto_now
+
+        return (app_seq.last_issued_number, app_seq.last_issued_date)
+
+    @classmethod
+    def issue_formatted_number(cls, taiwan_format=True):
+        year_delta = 1911 if taiwan_format else 0
+
+        issued_num, issued_date = cls.issue_number()
+        issued_date = (issued_date.year - year_delta, issued_date.month, issued_date.day)
+        
+        return int("%03d%02d%02d%04d" % (issued_date[0], issued_date[1], issued_date[2], issued_num))
+
+
 class Application(models.Model):
     applicant = models.ForeignKey(Applicant, verbose_name=u"申請人")
     application_case = models.ForeignKey(ApplicationCase, verbose_name=u"案件類別")
@@ -81,14 +124,21 @@ class Application(models.Model):
     involved_authors = models.ManyToManyField(User, null=True, blank=True, related_name="involved_applications", verbose_name=u"經手人員")
     notes = models.TextField(null=True, blank=True, verbose_name=u"案件備註")
     handovered_forms = models.ManyToManyField(HandoveredDocument, verbose_name=u"已繳交文件")
+    serial_number = models.IntegerField(verbose_name=u"案號")
 
-    def delete(self):
+    def save(self, *args, **kwargs):
+        if not self.serial_number:
+            self.serial_number = ApplicationSequence.issue_formatted_number()
+
+        super(Application, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
         # perform deleting all related commments
         ApplicationComment.objects.filter(target=self).delete()
 
         # perform deleting all related handovered documents
         self.handovered_forms.all().delete()
-        return super(Application, self).delete()
+        return super(Application, self).delete(*args, **kwargs)
     
     def __unicode__(self):
         return u"案件：%s" % (self.applicant)

@@ -150,7 +150,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
             'involved_authors',
             'comments',
             'notes',
-            'handovered_forms'
+            'handovered_forms',
+            'serial_number'
         )
         depth = 1
 

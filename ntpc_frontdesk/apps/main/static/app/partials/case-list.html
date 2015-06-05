@@ -2,8 +2,16 @@
     <md-list>
         <md-list-item ng-repeat="case in cases">
             <md-card style="background: white;" flex>
+
                 <md-card-content>
-                        [[case.application_case.name]]
+                        <md-content layout="row">
+                            <div flex>
+                                [[case.application_case.name]]
+                            </div>
+                            <div flex layout="row" layout-align="end center">
+                                案號：[[case.serial_number]]
+                            </div>
+                        </md-content>
 
                         <md-content class="md-padding">
                         <h3>[[case.applicant.fullname]] - [[case.applicant.id_no]]</h3>
@@ -11,7 +19,13 @@
                         </md-content>
 
                         <md-content layout="row" layout-align="start">
-                            <md-button class="md-raised md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
+                            <div flex>
+                                <md-button class="md-raised md-primary" ng-href="#/cases/[[case.id]]">查詢/修改</md-button>
+                            </div>
+
+                            <md-content flex layout="row" layout-align="end center">
+                            收件人&nbsp;&nbsp;<span class="stamp">[[ case.author.last_name ]][[ case.author.first_name ]]</span>
+                            </md-content>
                         </md-content>
 
                 </md-card-content>
