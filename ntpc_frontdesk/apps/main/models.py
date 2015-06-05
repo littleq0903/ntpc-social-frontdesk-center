@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from sequence_field.fields import SequenceField
 
 class ApplicationForm(models.Model):
     name = models.CharField(max_length=50, verbose_name=u"名稱")
@@ -124,7 +123,7 @@ class Application(models.Model):
     involved_authors = models.ManyToManyField(User, null=True, blank=True, related_name="involved_applications", verbose_name=u"經手人員")
     notes = models.TextField(null=True, blank=True, verbose_name=u"案件備註")
     handovered_forms = models.ManyToManyField(HandoveredDocument, verbose_name=u"已繳交文件")
-    serial_number = models.IntegerField(verbose_name=u"案號")
+    serial_number = models.BigIntegerField(verbose_name=u"案號")
 
     def save(self, *args, **kwargs):
         if not self.serial_number:

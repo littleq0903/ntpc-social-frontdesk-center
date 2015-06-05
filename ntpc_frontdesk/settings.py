@@ -80,13 +80,14 @@ ROOT_URLCONF = 'ntpc_frontdesk.urls'
 WSGI_APPLICATION = 'ntpc_frontdesk.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
+# Productional settings, local settings moved to settings_local.py and set in .dockerignore
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 
@@ -141,3 +142,8 @@ REST_FRAMEWORK = {
 
 ANONYMOUS_USER_ID = -1
 
+# import local settings if exists
+try:
+    from settings_local import *
+except:
+    pass
