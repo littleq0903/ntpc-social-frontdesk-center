@@ -73,7 +73,7 @@ class Applicant(models.Model):
 
 class ApplicationSequence(models.Model):
     last_issued_date = models.DateField(auto_now=True)
-    last_issued_number = models.IntegerField(default=1)
+    last_issued_number = models.IntegerField(default=0)
 
     @classmethod
     def get_or_create_if_missing(cls):

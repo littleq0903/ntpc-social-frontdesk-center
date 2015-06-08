@@ -39,7 +39,7 @@ class POP3Backend:
         if email_re.search(email):
             logger.debug("regular expression matched.")
             print 're matched'
-            username = email[:email.find('@')]
+            username = email[:email.find('@')].upper()
             domain = email[email.find('@')+1:]
 
         if username and domain in POP3_AUTH_SERVERS.keys():
@@ -52,7 +52,7 @@ class POP3Backend:
 
             try:
                 # trim the last dot character
-                ms= POP3_AUTH_SERVERS[domain]
+                ms = POP3_AUTH_SERVERS[domain]
 
                 # pop3 ssl fail, let's try pop
                 m = poplib.POP3(ms)
@@ -72,28 +72,23 @@ class POP3Backend:
     def authenticate(self, username=None, password=None):
         # Authenticate the base user, the username is an email address
         # If the user does not exist in POP3 server, Fail.
+        login_username = username[:username.find('@')].lower()
  
         if not self.auth_pop3_server(email=username, password=password):
             return None
 
         try:
-            user = User.objects.get(email=username)
-        except:
+            user = User.objects.get(username=login_username)
+        except Exception as e:
             from random import choice
-            temp_pass = ""
             new_user = ''
             domain = ''
 
             if email_re.search(username):
-                domain = username[username.find('@')+1:]
-                new_user = username[:username.find('@')]
-                new_user = new_user + '_' +POP3_AUTH_SERVERS[domain]
+                new_user = login_username
                 new_user = string.lower(new_user)
 
-            for i in range(8):
-                temp_pass = temp_pass + choice(string.letters)
-
-            user = User.objects.create_user(new_user, username, temp_pass)
+            user = User.objects.create_user(new_user, username, password)
             user.is_staff = False
             user.save()
 

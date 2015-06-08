@@ -7,13 +7,10 @@ https://docs.djangoproject.com/en/1.7/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
+from constants import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 import sys
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-PROJECT_DIR = os.path.join(BASE_DIR, 'ntpc_frontdesk')
-
 sys.path.insert(0, PROJECT_DIR)
 
 # Quick-start development settings - unsuitable for production
@@ -23,14 +20,12 @@ sys.path.insert(0, PROJECT_DIR)
 SECRET_KEY = '*y*po#*$rgm9&w7$qkmb(=phb1bs0#3pfq@gev2ez0q@al=qf8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = []
 
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 # Application definition
 
@@ -44,7 +39,6 @@ INSTALLED_APPS = (
     'djangobower',
     'apps.main',
     'rest_framework',
-    'guardian',
 )
 
 
@@ -57,6 +51,8 @@ BOWER_INSTALLED_APPS = (
     'angular-route',
     'angular-resource',
     'angular-cookies',
+    'angular-messages',
+    'underscore',
 )
 
 STATICFILES_FINDERS = (
@@ -120,7 +116,6 @@ POP3_BAD_USERS = ['root', 'bin', 'sys']
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'guardian.backends.ObjectPermissionBackend',
     'libs.pop3backend.pop3backend.POP3Backend'
 )
 
@@ -131,7 +126,7 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
@@ -143,7 +138,10 @@ REST_FRAMEWORK = {
 ANONYMOUS_USER_ID = -1
 
 # import local settings if exists
+"""
 try:
     from settings_local import *
 except:
     pass
+"""
+from settings_local import *

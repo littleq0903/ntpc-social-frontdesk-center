@@ -196,6 +196,16 @@ angular.module('RootApp', [
             ]
         },
         {
+            "name": "申請人管理",
+            "items": [
+                {
+                    "name": "申請人列表",
+                    "href": "#/applicants",
+                    "icon": "/static/material-design-icons/editor/svg/production/ic_insert_drive_file_24px.svg"
+                }
+            ]
+        },
+        {
             "name": "帳號管理",
             "items": [
                 {
