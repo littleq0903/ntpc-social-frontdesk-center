@@ -1,0 +1,9 @@
+db:
+    image: postgres
+web:
+    image: littleq0903/ntpc-frontdesk
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+        - "80:8000"
+    links:
+        - db
