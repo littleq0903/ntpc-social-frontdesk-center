@@ -6,4 +6,6 @@ ADD . src
 
 WORKDIR src
 
+RUN python manage.py bower install
+
 EXPOSE 8000
