@@ -24,7 +24,10 @@ DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'frontdesk.ntpc.gov.tw',
+    '172.16.219.11'
+]
 
 
 # Application definition
@@ -138,10 +141,7 @@ REST_FRAMEWORK = {
 ANONYMOUS_USER_ID = -1
 
 # import local settings if exists
-"""
 try:
     from settings_local import *
 except:
     pass
-"""
-from settings_local import *
