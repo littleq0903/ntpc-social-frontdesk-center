@@ -3,10 +3,10 @@ db:
     volumes:
         - "./docker_data:/var/lib/postgresql/data"
 web:
-    image: littleq0903/ntpc-frontdesk
+    image: littleq0903/ntpc-social-frontdesk-center
     command: python manage.py runserver 0.0.0.0:8000 --insecure
     volumes:
-        - "./docker_media:ntpc_frontdesk/media"
+        - "./docker_media:/src/ntpc_frontdesk/media"
     ports:
         - "80:8000"
     links:
