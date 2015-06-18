@@ -69,6 +69,10 @@ angular.module('RootApp', [
             templateUrl: '/static/app/partials/profile.html',
             controller: 'ProfileCtrl'
         })
+        .when('/applicants', {
+            templateUrl: '/static/app/partials/applicant-list.html',
+            controller: 'ApplicantListCtrl'
+        })
         .otherwise('/cases');
 })
 .config(function($mdThemingProvider){
@@ -88,7 +92,7 @@ angular.module('RootApp', [
 
 /* Factories */
 
-.factory('RestResource', function($resource) {
+.factory('RestResource', function($resource, $http) {
     /*
      * Extending the full-restful feature to $save
      */
@@ -173,6 +177,17 @@ angular.module('RootApp', [
     function($resource) {
         return $resource('/api/comments/:comment_id/', {
             comment_id: "@id"
+        });
+    }
+])
+.factory('applicantFactory', [
+    'RestResource',
+    function($resource) {
+        return $resource('/api/applicants/:applicant_id/', {
+            applicant_id: "@id"
+        },
+        {
+            query: {}
         });
     }
 ])
@@ -406,6 +421,11 @@ angular.module('RootApp', [
             });
         });
     });
+})
+.controller('ApplicantListCtrl', function($scope, applicantFactory) {
+    $scope.applicant_r = applicantFactory.query(function(data){
+        console.log(data);
+    });
+})
+;
 
-    
-});
