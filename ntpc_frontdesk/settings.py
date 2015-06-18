@@ -11,6 +11,7 @@ from constants import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
+import os
 sys.path.insert(0, PROJECT_DIR)
 
 # Quick-start development settings - unsuitable for production
@@ -140,6 +141,25 @@ REST_FRAMEWORK = {
 
 ANONYMOUS_USER_ID = -1
 
+"""
+Logging settings
+"""
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+  
 # import local settings if exists
 try:
     from settings_local import *
