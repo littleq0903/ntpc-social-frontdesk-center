@@ -5,6 +5,9 @@ db:
 web:
     image: littleq0903/ntpc-social-frontdesk-center
     command: python manage.py runserver 0.0.0.0:8000 --insecure
+    dns:
+        - 172.18.1.1
+        - 172.18.1.2
     volumes:
         - "./docker_media:/src/ntpc_frontdesk/media"
     ports:
