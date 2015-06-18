@@ -74,7 +74,7 @@ class ApplicantViewSet(viewsets.ModelViewSet):
     queryset = Applicant.objects.all()
     serializer_class = ApplicantSerializer
 
-ROUTER.register(r'applicant', ApplicantViewSet)
+ROUTER.register(r'applicants', ApplicantViewSet)
 
 class HandoveredDocumentSerializer(serializers.ModelSerializer):
     class Meta:
