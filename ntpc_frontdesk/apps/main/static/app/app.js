@@ -110,6 +110,30 @@ angular.module('RootApp', [
                 return this.$update();
             }
         };
+        
+        resource.prototype.$iter = function(cb) {
+            /*
+             * pagination method for Django Rest Framework
+             */
+            var _this_resource = this;
+            console.log(_this_resource);
+
+            if (_this_resource.next) {
+                $http.get(_this_resource.next).success(function(data){
+                    // reset the next and previous page api url.
+                    _this_resource.next = data.next;
+                    _this_resource.previous = data.previous;
+
+                    // append newly fetched results to exsiting results
+                    for ( i in data.results ) {
+                        _this_resource.results.push(data.results[i]);
+                    }
+
+                    // callback
+                    if (cb) cb(data);
+                });
+            }
+        }
 
         return resource;
     };
