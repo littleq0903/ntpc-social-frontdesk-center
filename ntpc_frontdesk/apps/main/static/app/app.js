@@ -137,6 +137,18 @@ angular.module('RootApp', [
                     if (cb) cb(data);
                 });
             }
+        };
+
+        resource.prototype.$loadall = function (cb) {
+            var _this = this;
+            if (this.results.length < this.count) {
+                this.$iter(function(){
+                    _this.$loadall();
+                });
+            } else {
+                return;
+            }
+            if (cb) cb(this.results.length);
         }
 
         return resource;
