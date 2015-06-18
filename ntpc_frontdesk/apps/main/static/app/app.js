@@ -367,12 +367,11 @@ angular.module('RootApp', [
     
 })
 .controller('CaseAddCtrl', function($mdToast, applicationCaseFactory, applicationFactory, $rootScope, $scope, $location){
-    $scope.caseSearchText = null;
     $rootScope.handoveredDocumentTemp = {};
     
-    applicationCaseFactory.query(function(data){
-        $scope.caseOptions = data.results;
+    $scope.applicationCase_r = applicationCaseFactory.query(function(data){
         console.log($scope.caseOptions);
+        $scope.applicationCase_r.$loadall();
     });
 
     $scope.caseModel = new applicationFactory();
