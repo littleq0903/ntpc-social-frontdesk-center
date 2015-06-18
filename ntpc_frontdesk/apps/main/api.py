@@ -66,10 +66,15 @@ ROUTER.register(r'users', UserViewSet)
 
 # Applicant
 class ApplicantSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Applicant
         fields = ('id_no', 'fullname', 'gender', 'phone', 'registered_address', 'living_address')
+
+class ApplicantViewSet(viewsets.ModelViewSet):
+    queryset = Applicant.objects.all()
+    serializer_class = ApplicantSerializer
+
+ROUTER.register(r'applicant', ApplicantViewSet)
 
 class HandoveredDocumentSerializer(serializers.ModelSerializer):
     class Meta:
