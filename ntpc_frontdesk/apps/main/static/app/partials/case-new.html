@@ -7,7 +7,7 @@
             <h3>申請項目</h3>
             <md-content class="md-padding">
                 <md-select ng-change="clearHandovered()" ng-model="caseModel.application_case" placeholder="請選擇申請項目">
-                    <md-option ng-repeat="item in caseOptions" ng-value="item">[[item.name]]</md-option>
+                    <md-option ng-repeat="item in applicationCase_r.results" ng-value="item">[[item.name]]</md-option>
                 </md-select>
             </md-content>
         </md-content>

@@ -276,10 +276,8 @@ angular.module('RootApp', [
     $rootScope.current_user = userFactory.get({username: "me"});
 })
 .controller('CaseListCtrl', function(applicationFactory, $scope){
-    applicationFactory.query(function(data){
-        console.log('get case list');
-        console.log($scope.cases);
-        $scope.cases = data.results;
+    $scope.case_r = applicationFactory.query(function(data){
+        console.log(data);
     });
 })
 .controller('CaseDetailCtrl', function($mdToast, applicationFactory, commentFactory, $rootScope, $scope, $routeParams, $mdToast){

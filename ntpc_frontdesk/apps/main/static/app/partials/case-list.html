@@ -1,6 +1,6 @@
 <md-content layout-padding style="background: #ccc;">
-    <md-list>
-        <md-list-item ng-repeat="case in cases">
+    <md-list layout="column">
+        <md-list-item ng-repeat="case in case_r.results">
             <md-card style="background: white;" flex>
 
                 <md-card-content>
@@ -32,8 +32,10 @@
             </md-card>
             <br/>
         </md-list-item>
+        <md-button class="md-primary" ng-click="case_r.$iter()" flex>MORE</md-button>
     </md-list>
 </md-content>
+
 
 <md-button class="md-fab md-primary" aria-label="新增案件" style="position: absolute; right: 20px; bottom: 20px;" ng-href="#/new-case">
     <md-tooltip md-direction="top">新增案件</md-tooltip>
