@@ -57,6 +57,7 @@ BOWER_INSTALLED_APPS = (
     'angular-cookies',
     'angular-messages',
     'underscore',
+    'ngInfiniteScroll#1.0.0',
 )
 
 STATICFILES_FINDERS = (

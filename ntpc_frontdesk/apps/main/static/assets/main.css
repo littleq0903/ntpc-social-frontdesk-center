@@ -1,0 +1,23 @@
+/* Some global settings */
+html,
+body {
+    font-family: 'RobotoDraft', Arial, sans-serif;
+}
+body {
+    background: #ccc;
+}
+
+/* App Style */
+span.stamp {
+    padding: 0 2px 0 2px;
+    border-radius: 3px;
+    border: 2px solid;
+    border-color: red;
+    color: red;
+    font-size: 22px;
+}
+
+/* special patch for angular-material ripple issue */
+md-list-item[md-ink-ripple] {
+    position: relative;
+}
