@@ -1,5 +1,28 @@
-<ul ng-repeat="applicant in applicant_r.results">
-    <li>[[applicant.id_no]]: [[applicant.fullname]]</li>
-</ul>
+<md-content layout-padding style="background: #ccc;">
+    <md-list layout="column">
+        <md-list-item ng-repeat="applicant in applicant_r.results">
+            <md-card style="background: white;" flex>
+                <md-card-content>
+                    <md-content layout="row">
+                        <div flex>
+                            [[applicant.fullname]]
+                        </div>
+                        <div flex layout="row" layout-align="end center">
+                            [[applicant.id_no]]
+                        </div>
+                    </md-content>
 
-<md-button ng-click="applicant_r.$iter()">NEXT</md-button>
+                    <md-content layout="row" layout-align="start">
+                        <div flex>
+                            <md-button class="md-raised md-primary">查詢/修改</md-button>
+                        </div>
+                    </md-content>
+                </md-card-content>
+            </md-card>
+        </md-list-item>
+
+        <md-button class="md-primary md-raised" ng-click="applicant_r.$iter()">[[moreLoadingStatus]]</md-button>
+    </md-list>
+</md-content>
+
+

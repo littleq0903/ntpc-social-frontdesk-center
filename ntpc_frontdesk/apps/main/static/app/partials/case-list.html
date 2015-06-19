@@ -14,8 +14,8 @@
                         </md-content>
 
                         <md-content class="md-padding">
-                        <h3>[[case.applicant.fullname]] - [[case.applicant.id_no]]</h3>
-                        <p>申請時間：[[ case.applied_time | date : 'medium' : '+0800' ]]</p>
+                            <h3>[[case.applicant.fullname]] - [[case.applicant.id_no]]</h3>
+                            <p>申請時間：[[ case.applied_time | date : 'medium' : '+0800' ]]</p>
                         </md-content>
 
                         <md-content layout="row" layout-align="start">
@@ -32,7 +32,8 @@
             </md-card>
             <br/>
         </md-list-item>
-        <md-button class="md-primary" ng-click="case_r.$iter()" flex>MORE</md-button>
+
+        <md-button class="md-primary md-raised" ng-click="case_r.$iter()" flex>[[moreLoadingStatus]]</md-button>
     </md-list>
 </md-content>
 

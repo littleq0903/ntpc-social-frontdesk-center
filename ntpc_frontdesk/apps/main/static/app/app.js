@@ -4,6 +4,7 @@ angular.module('RootApp', [
     'ngResource',
     'ngCookies',
     'ngMessages',
+    'infinite-scroll',
 ])
 
 
@@ -90,9 +91,17 @@ angular.module('RootApp', [
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 })
 
+/* pre-run */
+.run(function($rootScope){
+    // for more button loading status
+    $rootScope.moreLoadingStatus_stop = "MORE";
+    $rootScope.moreLoadingStatus_pending = "LOADING...";
+    $rootScope.moreLoadingStatus = $rootScope.moreLoadingStatus_stop;
+})
+
 /* Factories */
 
-.factory('RestResource', function($resource, $http) {
+.factory('RestResource', function($resource, $http, $rootScope) {
     /*
      * Extending the full-restful feature to $save
      */
@@ -123,6 +132,7 @@ angular.module('RootApp', [
             console.log(_this_resource);
 
             if (_this_resource.next) {
+                $rootScope.moreLoadingStatus = $rootScope.moreLoadingStatus_pending;
                 $http.get(_this_resource.next).success(function(data){
                     // reset the next and previous page api url.
                     _this_resource.next = data.next;
@@ -133,6 +143,7 @@ angular.module('RootApp', [
                         _this_resource.results.push(data.results[i]);
                     }
 
+                    $rootScope.moreLoadingStatus = $rootScope.moreLoadingStatus_stop;
                     // callback
                     if (cb) cb(data);
                 });
