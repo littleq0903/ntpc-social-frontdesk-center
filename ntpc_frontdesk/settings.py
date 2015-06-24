@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
 
 BOWER_INSTALLED_APPS = (
+    'jquery',
     'bootstrap',
     'bootstrap-material-design',
     'bootstrap-sidebar',
@@ -160,7 +161,7 @@ LOGGING = {
         },
     },
 }
-  
+
 # import local settings if exists
 try:
     from settings_local import *
