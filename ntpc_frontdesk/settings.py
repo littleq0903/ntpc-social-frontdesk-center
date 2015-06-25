@@ -27,7 +27,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
     'frontdesk.ntpc.gov.tw',
-    '172.16.219.11'
+    'dockertest'
 ]
 
 
@@ -40,25 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djangobower',
     'apps.main',
     'rest_framework',
-)
-
-
-BOWER_INSTALLED_APPS = (
-    'jquery',
-    'bootstrap',
-    'bootstrap-material-design',
-    'bootstrap-sidebar',
-    'material-design-iconic-font',
-    'angular-material',
-    'angular-route',
-    'angular-resource',
-    'angular-cookies',
-    'angular-messages',
-    'underscore',
-    'ngInfiniteScroll#1.0.0',
 )
 
 STATICFILES_FINDERS = (

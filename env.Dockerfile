@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Colin Su <littleq0903@gmail.com>
 
-# for django-bower
+# for bower
 RUN apt-get update
 RUN apt-get install -y nodejs npm python-setuptools libpq-dev python-dev libncurses5 libncurses5-dev git-core
 RUN npm install -g bower
