@@ -33,7 +33,7 @@ angular.module('apps.application.controllers', [
             ifrm.setAttribute("style", "display: None;");
             document.body.appendChild(ifrm);
             ifrm.contentWindow.print();
-            
+
         });
     }
 
@@ -96,11 +96,11 @@ angular.module('apps.application.controllers', [
 
         });
     }
-    
+
 })
 .controller('CaseAddCtrl', function($mdToast, applicationCaseFactory, applicationFactory, $rootScope, $scope, $location){
     $rootScope.handoveredDocumentTemp = {};
-    
+
     $scope.applicationCase_r = applicationCaseFactory.query(function(data){
         console.log($scope.caseOptions);
         $scope.applicationCase_r.$loadall();
@@ -112,7 +112,7 @@ angular.module('apps.application.controllers', [
         $rootScope.handoveredDocumentTemp = {};
     }
     $scope.updateHandovered = function() {
-        
+
         $scope.caseModel.handovered_forms_string = _.map($rootScope.handoveredDocumentTemp, function (v, k) { if (v) return parseInt(k); });
         $scope.caseModel.handovered_forms_string = _.filter($scope.caseModel.handovered_forms_string, function(v) {return v;});
 
@@ -120,7 +120,7 @@ angular.module('apps.application.controllers', [
 
     $scope.saveCase = function(){
         var caseModel_toSubmit = _.extend({}, $scope.caseModel);
-        
+
         // injection to data for submitting
         caseModel_toSubmit.application_case = caseModel_toSubmit.application_case.id;
         caseModel_toSubmit.author_username = $rootScope.current_user.username;

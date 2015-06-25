@@ -1,0 +1,56 @@
+
+<md-list>
+<md-content class="md-padding" style="background: None;">
+<md-card layout="column">
+    <md-content class="md-padding emphasis" layout="row" layout-sm="column" md-theme="emphasis">
+        <md-tile-left>
+        	[[applicant.id_no]]
+        </md-tile-left>
+        <md-tile-content>
+            <h2>[[applicant.fullname]]</h2>
+        </md-tile-content>
+    </md-content>
+
+    <md-card-content>
+        <md-content class="md-padding" layout="row" layout-sm="column">
+
+            <md-input-container flex>
+                <label>申請人身份證字號</label>
+                <input ng-model="applicant.id_no" disabled>
+            </md-input-container>
+
+            <md-input-container flex>
+                <label>申請人姓名</label>
+                <input ng-model="applicant.fullname">
+            </md-input-container>
+
+            <md-input-container flex>
+                <label>申請人聯絡電話</label>
+                <input ng-model="applicant.phone">
+            </md-input-container>
+        </md-content>
+
+        <md-content class="md-padding" layout="row" layout-sm="column">
+            <md-input-container flex>
+                <label>戶籍地址</label>
+                <input ng-model="applicant.registered_address">
+            </md-input-container>
+
+            <md-input-container flex>
+                <label>通訊地址</label>
+                <input ng-model="applicant.living_address">
+            </md-input-container>
+        </md-content>
+
+    </md-card-content>
+
+    <md-card-content>
+    <div class="md-actions" layout="row" layout-align="end center">
+        <md-button class="md-primary md-raised" ng-click="commitModification()">修改</md-button>
+        <md-button class="md-warn md-raised" ng-click="">刪除</md-button>
+    </div>
+    </md-card-content>
+
+</md-card>
+</md-content>
+</md-list>

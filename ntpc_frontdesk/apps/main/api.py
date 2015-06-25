@@ -73,6 +73,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
 class ApplicantViewSet(viewsets.ModelViewSet):
     queryset = Applicant.objects.all()
     serializer_class = ApplicantSerializer
+    lookup_field = 'id_no'
 
 ROUTER.register(r'applicants', ApplicantViewSet)
 
@@ -166,7 +167,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
     application_case = serializers.PrimaryKeyRelatedField(queryset=ApplicationCase.objects.all())
     handovered_forms_string = serializers.CharField()
     author_username = serializers.CharField()
-    
+
     def to_representation(self, obj):
         return {
             'id': obj.id,
@@ -176,7 +177,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-    
+
         handovered_forms = json.loads(validated_data.pop('handovered_forms_string'))
         applicant_data = validated_data.pop('applicant')
         author_username = validated_data.pop('author_username')
@@ -189,7 +190,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
         validated_data['applicant'] = applicant
         validated_data['author'] = author
 
-        
+
         app = Application.objects.create(**validated_data)
         app.save()
 
@@ -199,7 +200,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
             document.save()
 
             app.handovered_forms.add(document)
-            
+
         app.save()
 
         return app
@@ -239,7 +240,7 @@ class ApplicationSaveSerializer(serializers.ModelSerializer):
             'notes'
         )
 
-    
+
 class MultiSerializerModelViewSet(viewsets.ModelViewSet):
     serializers = {
         'default': None
@@ -266,7 +267,7 @@ class ApplicationCommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-        
+
 
 ROUTER.register(r'applications', ApplicationViewSet)
 ROUTER.register(r'comments', ApplicationCommentViewSet)

@@ -6,7 +6,7 @@ angular.module('resources.applicant', [
     'DjangoRestResource',
     function($resource) {
         return $resource('/api/applicants/:applicant_id/', {
-            applicant_id: "@id"
+            applicant_id: "@id_no"
         },
         {
             query: {}

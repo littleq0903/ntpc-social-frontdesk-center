@@ -39,6 +39,10 @@ angular.module('config', [
             templateUrl: '/static/app/apps/applicant/list.tpl.html',
             controller: 'ApplicantListCtrl'
         })
+        .when('/applicants/:id_no', {
+            templateUrl: '/static/app/apps/applicant/detail.tpl.html',
+            controller: 'ApplicantDetailCtrl'
+        })
         .otherwise('/cases');
 })
 
