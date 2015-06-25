@@ -21,3 +21,15 @@ span.stamp {
 md-list-item[md-ink-ripple] {
     position: relative;
 }
+
+/* for fixing dark font color issue: force made the font color white; */
+.emphasis {
+	color: white;
+}
+
+.card-header {
+	margin: -16px;
+	margin-bottom: 8px;
+	padding: 16px;
+	z-index: 1;
+}

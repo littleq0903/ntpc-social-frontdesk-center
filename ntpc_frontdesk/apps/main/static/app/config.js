@@ -44,10 +44,16 @@ angular.module('config', [
 
 
 .config(function($mdThemingProvider){
-    $mdThemingProvider.theme('profile-dark', 'default')
-        .dark();
-    $mdThemingProvider.theme('case-detail-form', 'default')
-        .backgroundPalette('indigo');
+    // default palette config
+    $mdThemingProvider.theme('default')
+        .primaryPalette('blue')
+        ;
+
+    // emphasis theme config
+    $mdThemingProvider.theme('emphasis', 'default')
+        .backgroundPalette('blue')
+        .dark()
+        ;
 })
 .config(function($resourceProvider) {
     // Don't strip trailing slashes from calculated URLs

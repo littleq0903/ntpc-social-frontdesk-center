@@ -2,7 +2,7 @@
 <!-- case detail form: START -->
 <md-content class="md-padding" style="background: None;">
 <md-card layout="column">
-    <md-content md-theme="case-detail-form" class="md-padding" layout="row" layout-sm="column">
+    <md-content class="md-padding emphasis" layout="row" layout-sm="column" md-theme="emphasis">
         <md-tile-left>
             [[case.application_case.name]]
         </md-tile-left>
@@ -69,7 +69,7 @@
                 <md-content ng-repeat="form in case.application_case.required_forms">
                     <md-input-container>
                         <md-checkbox ng-model="checkingListTable[form.id]" ng-change="updateHandovered()">
-                            [[form.name]] 
+                            [[form.name]]
                         </md-checkbox>
                         <a href="[[form.scan_file]]" ng-if="form.scan_file">申請表</a>
                     </md-input-container>
@@ -105,7 +105,7 @@
 
     </md-card-content>
 
-    <md-card-content md-theme="case-detail-form">
+    <md-card-content>
     <div class="md-actions" layout="row" layout-align="end center">
         <md-button class="md-primary" ng-click="printNotifyForm()">
             <md-icon md-svg-icon="/static/material-design-icons/action/svg/production/ic_print_48px.svg"></md-icon>

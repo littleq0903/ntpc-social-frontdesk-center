@@ -4,8 +4,8 @@
         <h2>個人資訊</h2>
     </md-content>
 
-    <md-content class="md-padding" md-theme="profile-dark" layout="row" layout-sm="column">
-        
+    <md-content class="md-padding emphasis" md-theme="emphasis" layout="row" layout-sm="column">
+
         <md-input-container>
             <label>姓氏</label>
             <input ng-model="user.last_name" ng-model-options="{ debounce: SAVE_TIMEOUT }">
@@ -15,7 +15,7 @@
             <label>名字</label>
             <input ng-model="user.first_name" ng-model-options="{ debounce: SAVE_TIMEOUT }">
         </md-input-container>
-    
+
     </md-content>
 
     <md-content class="md-padding" layout="row" layout-sm="column">
@@ -24,7 +24,7 @@
             <label>電子郵件</label>
             <input ng-model="user.email" ng-model-options="{ debounce: SAVE_TIMEOUT }">
         </md-input-container>
-    
+
     </md-content>
 
 </md-card>
