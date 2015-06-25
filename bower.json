@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "",
     "angular-cookies": "",
     "angular-animate": "",
     "angular-material": "",
@@ -22,6 +23,7 @@
     "angular-route": "",
     "angular-aria": "",
     "material-design-icons": "",
-    "underscore": ""
+    "underscore": "",
+    "ngInfiniteScroll": "1.0.0"
   }
 }
