@@ -21,8 +21,8 @@ angular.module('RootApp', [
 /* pre-run */
 .run(function($rootScope){
     // for more button loading status
-    $rootScope.moreLoadingStatus_stop = "MORE";
-    $rootScope.moreLoadingStatus_pending = "LOADING...";
+    $rootScope.moreLoadingStatus_stop = "更多";
+    $rootScope.moreLoadingStatus_pending = "讀取中...";
     $rootScope.moreLoadingStatus = $rootScope.moreLoadingStatus_stop;
 })
 
