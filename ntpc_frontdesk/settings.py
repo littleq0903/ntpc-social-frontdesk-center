@@ -27,7 +27,8 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
     'frontdesk.ntpc.gov.tw',
-    'dockertest'
+    'dockertest',
+    'localhost'
 ]
 
 
