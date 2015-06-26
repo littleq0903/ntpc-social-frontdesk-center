@@ -1,55 +1,93 @@
-{% extends "admin/base_site.html" %}
-{% load i18n admin_static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />{% endblock %}
+    <title>淡水區公所櫃檯系統</title>
 
-{% block bodyclass %}{{ block.super }} login{% endblock %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="/static/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/static/assets/main.css">
 
-{% block nav-global %}{% endblock %}
+</head>
+<body ng-app="RootApp" ng-controller="LoginCtrl" layout="column">
+    <div layout="row" layout-align="center center" style="height: 100%; width: 100%;">
+        <md-card style="width: 300px;">
+            <md-card-content>
+                <md-content class="card-header">
+                    <center>
+                        <h2>淡水區公所櫃檯系統</h2>
+                    </center>
+                </md-content>
+                <form action="{{ app_path }}" method="post">
+                    <md-input-container>
+                        <label>使用者帳號</label>
+                        <input id="id_username" name="username">
+                    </md-input-container>
 
-{% block content_title %}{% endblock %}
+                    <md-input-container>
+                        <label>使用者密碼</label>
+                        <input name="password" type="password">
+                    </md-input-container>
 
-{% block breadcrumbs %}{% endblock %}
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="/app" />
+                    <div layout="row" layout-align="center center">
+                        <md-button class="md-fab md-primary" aria-label="登入">
+                            <md-icon md-svg-src="/static/material-design-icons/navigation/svg/production/ic_arrow_forward_24px.svg"></md-icon>
+                        </md-button>
 
-{% block content %}
-{% if form.errors and not form.non_field_errors %}
-<p class="errornote">
-{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-</p>
-{% endif %}
+                    </div>
+                </form>
+            </md-card-content>
+        </md-card>
+    </div>
 
-{% if form.non_field_errors %}
-{% for error in form.non_field_errors %}
-<p class="errornote">
-    {{ error }}
-</p>
-{% endfor %}
-{% endif %}
+    <script type="text/javascript">
+        document.getElementById('id_username').focus()
+    </script>
+    <!-- Common Libraries -->
+    <script src="/static/jquery/dist/jquery.min.js"></script>
+    <script src="/static/underscore/underscore.js"></script>
+    <script src="/static/angular/angular.js"></script>
 
-<div id="content-main">
-<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  <div class="form-row">
-    {{ form.username.errors }}
-    <label for="id_username" class="required">{{ form.username.label }}:</label> {{ form.username }}
-  </div>
-  <div class="form-row">
-    {{ form.password.errors }}
-    <label for="id_password" class="required">{% trans 'Password:' %}</label> {{ form.password }}
-    <input type="hidden" name="next" value="{{ next }}" />
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-  <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
-  </div>
-</form>
+    <!-- Angular Modules -->
+    <script src="/static/angular-material/angular-material.js"></script>
+    <script src="/static/angular-aria/angular-aria.js"></script>
+    <script src="/static/angular-animate/angular-animate.js"></script>
+    <script src="/static/angular-route/angular-route.js"></script>
+    <script src="/static/angular-resource/angular-resource.js"></script>
+    <script src="/static/angular-cookies/angular-cookies.js"></script>
+    <script src="/static/angular-messages/angular-messages.js"></script>
+    <script src="/static/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
 
-<script type="text/javascript">
-document.getElementById('id_username').focus()
-</script>
-</div>
-{% endblock %}
+    <!-- App Modules -->
+    <!-- modules: global -->
+    <script src="/static/app/config.js"></script>
+
+    <!-- modules: directives -->
+    <script src="/static/app/common/directives/checkid.js"></script>
+
+    <!-- modules: services -->
+    <script src="/static/app/common/services/django-rest-resource.js"></script>
+
+    <!-- modules: resources -->
+    <script src="/static/app/common/resources/user.js"></script>
+    <script src="/static/app/common/resources/application.js"></script>
+    <script src="/static/app/common/resources/applicationcase.js"></script>
+    <script src="/static/app/common/resources/comment.js"></script>
+    <script src="/static/app/common/resources/applicant.js"></script>
+
+    <!-- modules: controllers -->
+    <script src="/static/app/apps/profile/controllers.js"></script>
+    <script src="/static/app/apps/application/controllers.js"></script>
+    <script src="/static/app/apps/applicant/controllers.js"></script>
+
+    <!-- modules: entry point -->
+    <script src="/static/app/app.js"></script>
+
+</body>
+</html>

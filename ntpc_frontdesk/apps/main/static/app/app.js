@@ -27,6 +27,7 @@ angular.module('RootApp', [
 })
 
 /* Controllers */
+.controller('LoginCtrl', function(){})
 .controller('AppCtrl', function($scope, $rootScope, $mdSidenav, $window, $location, $timeout, $cookies, userFactory){
     $rootScope.$on('$locationChangeSuccess', closeSidenav);
     $rootScope.getCSRFToken = function (){
