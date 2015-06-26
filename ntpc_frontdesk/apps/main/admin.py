@@ -15,11 +15,15 @@ from apps.main.models import (
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('applicant', 'application_case', 'applied_time', 'author')
     list_display_links = ('applicant', )
+    search_fields = ['applicant__id_no', 'applicant__fullname']
+    list_filter = ['application_case__name', 'author__first_name']
+
 
 @admin.register(Applicant)
 class ApplicantAdmin(admin.ModelAdmin):
     list_display = ('fullname', 'id_no', 'phone', 'registered_address')
     list_display_links = ('fullname', )
+    search_fields = ['id_no', 'fullname', 'phone', 'registered_address']
 
 @admin.register(ApplicationCase)
 class ApplicationCaseAdmin(admin.ModelAdmin):
